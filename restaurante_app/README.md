@@ -1,31 +1,123 @@
-# Sistema de Gestión de Restaurante
+# Sistema de Restaurante - Programación Orientada a Objetos
 
 ## Estudiante
 
-Ricardo Cando
+**Nombre:** Ricardo Cando
 
-## Descripción
+**Asignatura:** Programación Orientada a Objetos
 
-Este proyecto desarrolla un sistema básico de gestión de restaurante utilizando Programación Orientada a Objetos en Python. Permite registrar productos y clientes, almacenarlos y mostrar la información registrada en consola.
+**Semana:** 6
 
-## Estructura del Proyecto
+---
 
+# Descripción
+
+Este proyecto consiste en un sistema básico para administrar los productos de un restaurante utilizando Programación Orientada a Objetos (POO) en Python.
+
+El sistema permite registrar platillos y bebidas, almacenarlos en una lista y mostrar su información en la consola. Durante el desarrollo se aplican los principios fundamentales de la POO como herencia, encapsulación y polimorfismo.
+
+---
+
+# Estructura del proyecto
+
+```
 restaurante_app/
+│
 ├── modelos/
+│   ├── __init__.py
 │   ├── producto.py
-│   └── cliente.py
+│   ├── platillo.py
+│   └── bebida.py
+│
 ├── servicios/
+│   ├── __init__.py
 │   └── restaurante.py
+│
 └── main.py
+```
 
-## Funcionalidades
+---
 
-* Registro de productos del restaurante.
-* Registro de clientes.
-* Gestión centralizada mediante la clase Restaurante.
-* Visualización de información en consola.
-* Uso de clases, objetos, constructores, métodos y método especial **str**().
+# Herencia
 
-## Reflexión
+La clase **Producto** es la clase padre del sistema.
 
-La modularización permite dividir un programa en partes más pequeñas y organizadas. Esto facilita el mantenimiento, la reutilización del código y la comprensión de cada componente del sistema. Además, separar modelos, servicios y ejecución principal ayuda a desarrollar software más ordenado y escalable.
+De ella heredan las clases:
+
+- Platillo
+- Bebida
+
+Esto permite reutilizar atributos y métodos comunes.
+
+```
+Producto
+│
+├── Platillo
+└── Bebida
+```
+
+---
+
+# Encapsulación
+
+El atributo **__precio** fue declarado como privado dentro de la clase Producto para proteger la información.
+
+Su acceso se realiza mediante los métodos:
+
+- obtener_precio()
+- cambiar_precio()
+
+El método **cambiar_precio()** valida que el nuevo precio sea mayor que cero.
+
+---
+
+# Polimorfismo
+
+Las clases **Platillo** y **Bebida** sobrescriben el método:
+
+```
+mostrar_informacion()
+```
+
+Cuando el programa recorre la lista de productos, cada objeto muestra información diferente según su tipo.
+
+---
+
+# Funcionalidades
+
+- Registrar platillos.
+- Registrar bebidas.
+- Mostrar todos los productos.
+- Modificar el precio de un producto.
+- Validar que el precio sea mayor que cero.
+- Aplicar herencia.
+- Aplicar encapsulación.
+- Aplicar polimorfismo.
+
+---
+
+# Ejecución
+
+Desde la carpeta **restaurante_app** ejecutar:
+
+```bash
+python main.py
+```
+
+o
+
+```bash
+python3 main.py
+```
+
+---
+
+# Reflexión
+
+La Programación Orientada a Objetos facilita la organización del código, permite reutilizar clases mediante la herencia, protege la información con encapsulación y hace posible que diferentes objetos respondan de manera distinta utilizando el mismo método gracias al polimorfismo. Estos principios contribuyen al desarrollo de aplicaciones más ordenadas, reutilizables y fáciles de mantener.
+
+---
+
+# Autor
+
+**Ricardo Cando**
