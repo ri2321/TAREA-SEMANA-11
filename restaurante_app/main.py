@@ -1,55 +1,232 @@
-from modelos.platillo import Platillo
-from modelos.bebida import Bebida
+from modelos.producto import Producto
+from modelos.cliente import Cliente
 from servicios.restaurante import Restaurante
 
+
+
 restaurante = Restaurante()
-# Crear restaurante
-restaurante = Restaurante()
 
-# Crear platillos
-platillo1 = Platillo(
-    "Pizza",
-    8.50,
-    True,
-    "Comida rápida"
-)
 
-platillo2 = Platillo(
-    "Encebollado",
-    5.00,
-    True,
-    "Tradicional"
-)
 
-# Crear bebidas
-bebida1 = Bebida(
-    "Coca-Cola",
-    1.50,
-    True,
-    500
-)
+def menu():
 
-bebida2 = Bebida(
-    "Jugo de Naranja",
-    2.00,
-    False,
-    350
-)
+    while True:
 
-# Agregar productos
-restaurante.agregar_producto(platillo1)
-restaurante.agregar_producto(platillo2)
-restaurante.agregar_producto(bebida1)
-restaurante.agregar_producto(bebida2)
+        print("""
+==================================
+       SISTEMA RESTAURANTE
+==================================
+1. Registrar producto
+2. Mostrar productos
+3. Buscar producto
 
-# Mostrar productos
-restaurante.mostrar_productos()
+4. Registrar cliente
+5. Mostrar clientes
+6. Buscar cliente
 
-# Probar encapsulación
-print("Precio actual:", platillo1.obtener_precio())
+7. Salir
+==================================
+""")
 
-platillo1.cambiar_precio(9.00)
 
-print("Nuevo precio:", platillo1.obtener_precio())
+        opcion = input("Seleccione una opción: ")
 
-platillo1.cambiar_precio(-5)
+
+
+        if opcion == "1":
+
+            registrar_producto()
+
+
+        elif opcion == "2":
+
+            mostrar_productos()
+
+
+        elif opcion == "3":
+
+            buscar_producto()
+
+
+        elif opcion == "4":
+
+            registrar_cliente()
+
+
+        elif opcion == "5":
+
+            mostrar_clientes()
+
+
+        elif opcion == "6":
+
+            buscar_cliente()
+
+
+        elif opcion == "7":
+
+            print("Programa finalizado")
+            break
+
+
+        else:
+
+            print("Opción incorrecta")
+
+
+
+
+def registrar_producto():
+
+    try:
+
+        nombre = input("Nombre del producto: ")
+
+        categoria = input("Categoría: ")
+
+        precio = float(input("Precio: "))
+
+
+        producto = Producto(
+            nombre,
+            categoria,
+            precio
+        )
+
+
+        restaurante.agregar_producto(producto)
+
+        print("Producto registrado")
+
+
+    except ValueError as error:
+
+        print(error)
+
+
+
+
+def mostrar_productos():
+
+    productos = restaurante.listar_productos()
+
+
+    if not productos:
+
+        print("No hay productos")
+
+
+    else:
+
+        for producto in productos:
+
+            print("-------------------")
+            print(producto.mostrar_informacion())
+
+
+
+
+
+def buscar_producto():
+
+    nombre = input("Producto a buscar: ")
+
+
+    producto = restaurante.buscar_producto(nombre)
+
+
+    if producto:
+
+        print(producto.mostrar_informacion())
+
+
+    else:
+
+        print("Producto no encontrado")
+
+
+
+
+
+def registrar_cliente():
+
+
+    id_cliente = int(input("ID cliente: "))
+
+    nombre = input("Nombre: ")
+
+    correo = input("Correo: ")
+
+
+
+    cliente = Cliente(
+        id_cliente,
+        nombre,
+        correo
+    )
+
+
+    restaurante.agregar_cliente(cliente)
+
+
+    print("Cliente registrado")
+
+
+
+
+
+def mostrar_clientes():
+
+    clientes = restaurante.listar_clientes()
+
+
+    if not clientes:
+
+        print("No existen clientes")
+
+
+    else:
+
+        for cliente in clientes:
+
+            print("-------------------")
+
+            print(
+                f"ID: {cliente.id_cliente}\n"
+                f"Nombre: {cliente.nombre}\n"
+                f"Correo: {cliente.correo}"
+            )
+
+
+
+
+
+def buscar_cliente():
+
+    nombre = input("Nombre del cliente: ")
+
+
+    cliente = restaurante.buscar_cliente(nombre)
+
+
+    if cliente:
+
+
+        print(
+            f"ID: {cliente.id_cliente}\n"
+            f"Nombre: {cliente.nombre}\n"
+            f"Correo: {cliente.correo}"
+        )
+
+
+    else:
+
+        print("Cliente no encontrado")
+
+
+
+
+
+if __name__ == "__main__":
+
+    menu()
