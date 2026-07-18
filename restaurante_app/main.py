@@ -1,232 +1,57 @@
 from modelos.producto import Producto
+from modelos.bebida import Bebida
 from modelos.cliente import Cliente
 from servicios.restaurante import Restaurante
 
-
-
 restaurante = Restaurante()
 
+while True:
+    print("\n===== SISTEMA DE RESTAURANTE =====")
+    print("1. Registrar producto")
+    print("2. Registrar bebida")
+    print("3. Registrar cliente")
+    print("4. Listar productos")
+    print("5. Listar clientes")
+    print("6. Salir")
 
+    opcion = input("Seleccione una opción: ")
 
-def menu():
-
-    while True:
-
-        print("""
-==================================
-       SISTEMA RESTAURANTE
-==================================
-1. Registrar producto
-2. Mostrar productos
-3. Buscar producto
-
-4. Registrar cliente
-5. Mostrar clientes
-6. Buscar cliente
-
-7. Salir
-==================================
-""")
-
-
-        opcion = input("Seleccione una opción: ")
-
-
-
-        if opcion == "1":
-
-            registrar_producto()
-
-
-        elif opcion == "2":
-
-            mostrar_productos()
-
-
-        elif opcion == "3":
-
-            buscar_producto()
-
-
-        elif opcion == "4":
-
-            registrar_cliente()
-
-
-        elif opcion == "5":
-
-            mostrar_clientes()
-
-
-        elif opcion == "6":
-
-            buscar_cliente()
-
-
-        elif opcion == "7":
-
-            print("Programa finalizado")
-            break
-
-
-        else:
-
-            print("Opción incorrecta")
-
-
-
-
-def registrar_producto():
-
-    try:
-
-        nombre = input("Nombre del producto: ")
-
+    if opcion == "1":
+        codigo = input("Código: ")
+        nombre = input("Nombre: ")
         categoria = input("Categoría: ")
-
         precio = float(input("Precio: "))
 
+        producto = Producto(codigo, nombre, precio, categoria)
+        restaurante.registrar_producto(producto)
 
-        producto = Producto(
-            nombre,
-            categoria,
-            precio
-        )
+    elif opcion == "2":
+        codigo = input("Código: ")
+        nombre = input("Nombre: ")
+        categoria = input("Categoría: ")
+        precio = float(input("Precio: "))
+        tamano = input("Tamaño: ")
 
+        bebida = Bebida(codigo, nombre, precio, categoria, tamano)
+        restaurante.registrar_producto(bebida)
 
-        restaurante.agregar_producto(producto)
+    elif opcion == "3":
+        identificacion = input("Identificación: ")
+        nombre = input("Nombre: ")
+        correo = input("Correo: ")
 
-        print("Producto registrado")
+        cliente = Cliente(identificacion, nombre, correo)
+        restaurante.registrar_cliente(cliente)
 
+    elif opcion == "4":
+        restaurante.listar_productos()
 
-    except ValueError as error:
+    elif opcion == "5":
+        restaurante.listar_clientes()
 
-        print(error)
-
-
-
-
-def mostrar_productos():
-
-    productos = restaurante.listar_productos()
-
-
-    if not productos:
-
-        print("No hay productos")
-
-
-    else:
-
-        for producto in productos:
-
-            print("-------------------")
-            print(producto.mostrar_informacion())
-
-
-
-
-
-def buscar_producto():
-
-    nombre = input("Producto a buscar: ")
-
-
-    producto = restaurante.buscar_producto(nombre)
-
-
-    if producto:
-
-        print(producto.mostrar_informacion())
-
+    elif opcion == "6":
+        print("Programa finalizado.")
+        break
 
     else:
-
-        print("Producto no encontrado")
-
-
-
-
-
-def registrar_cliente():
-
-
-    id_cliente = int(input("ID cliente: "))
-
-    nombre = input("Nombre: ")
-
-    correo = input("Correo: ")
-
-
-
-    cliente = Cliente(
-        id_cliente,
-        nombre,
-        correo
-    )
-
-
-    restaurante.agregar_cliente(cliente)
-
-
-    print("Cliente registrado")
-
-
-
-
-
-def mostrar_clientes():
-
-    clientes = restaurante.listar_clientes()
-
-
-    if not clientes:
-
-        print("No existen clientes")
-
-
-    else:
-
-        for cliente in clientes:
-
-            print("-------------------")
-
-            print(
-                f"ID: {cliente.id_cliente}\n"
-                f"Nombre: {cliente.nombre}\n"
-                f"Correo: {cliente.correo}"
-            )
-
-
-
-
-
-def buscar_cliente():
-
-    nombre = input("Nombre del cliente: ")
-
-
-    cliente = restaurante.buscar_cliente(nombre)
-
-
-    if cliente:
-
-
-        print(
-            f"ID: {cliente.id_cliente}\n"
-            f"Nombre: {cliente.nombre}\n"
-            f"Correo: {cliente.correo}"
-        )
-
-
-    else:
-
-        print("Cliente no encontrado")
-
-
-
-
-
-if __name__ == "__main__":
-
-    menu()
+        print("Opción incorrecta.")

@@ -2,97 +2,105 @@
 
 ## Estudiante
 
-**Nombre:** Ricardo Cando
+**Nombre:** Ricardo Rubén Cando Arguello
 
 **Asignatura:** Programación Orientada a Objetos
 
-**Semana:** 6
+**Semana:** 8
 
 ---
 
 # Descripción
 
-Este proyecto consiste en un sistema básico para administrar los productos de un restaurante utilizando Programación Orientada a Objetos (POO) en Python.
+Este proyecto consiste en el desarrollo de un sistema de gestión para un restaurante utilizando Programación Orientada a Objetos (POO) en Python. El sistema permite registrar y listar productos, bebidas y clientes mediante un menú interactivo ejecutado desde la consola.
 
-El sistema permite registrar platillos y bebidas, almacenarlos en una lista y mostrar su información en la consola. Durante el desarrollo se aplican los principios fundamentales de la POO como herencia, encapsulación y polimorfismo.
+El proyecto está organizado de forma modular para facilitar el mantenimiento del código y demostrar la aplicación de los principios SOLID.
 
 ---
 
 # Estructura del proyecto
 
-```
+```text
 restaurante_app/
 │
 ├── modelos/
 │   ├── __init__.py
 │   ├── producto.py
-│   ├── platillo.py
-│   └── bebida.py
+│   ├── bebida.py
+│   └── cliente.py
 │
 ├── servicios/
 │   ├── __init__.py
 │   └── restaurante.py
 │
-└── main.py
+├── main.py
+└── README.md
 ```
 
 ---
 
-# Herencia
+# Responsabilidad de cada clase
 
-La clase **Producto** es la clase padre del sistema.
+### Producto
 
-De ella heredan las clases:
+Representa un producto general del restaurante y almacena información como código, nombre, categoría y precio.
 
-- Platillo
-- Bebida
+### Bebida
 
-Esto permite reutilizar atributos y métodos comunes.
+Hereda de la clase Producto y añade información específica, como el tamaño o el tipo de envase. Además, sobrescribe el método `mostrar_informacion()`.
 
-```
-Producto
-│
-├── Platillo
-└── Bebida
-```
+### Cliente
 
----
+Representa la información de un cliente registrado mediante su identificación, nombre y correo electrónico.
 
-# Encapsulación
+### Restaurante
 
-El atributo **__precio** fue declarado como privado dentro de la clase Producto para proteger la información.
+Administra las colecciones de productos y clientes. También valida que no existan códigos de productos ni identificaciones de clientes repetidas.
 
-Su acceso se realiza mediante los métodos:
+### main.py
 
-- obtener_precio()
-- cambiar_precio()
-
-El método **cambiar_precio()** valida que el nuevo precio sea mayor que cero.
+Es el punto de entrada del programa. Presenta el menú interactivo, solicita la información al usuario y utiliza los métodos de la clase Restaurante.
 
 ---
 
-# Polimorfismo
+# Relación entre Producto y Bebida
 
-Las clases **Platillo** y **Bebida** sobrescriben el método:
+La clase **Bebida** hereda de **Producto**, ya que una bebida es un tipo de producto. Gracias a esta relación, ambos objetos pueden almacenarse en una misma colección y utilizar el método `mostrar_informacion()` mediante polimorfismo.
 
-```
-mostrar_informacion()
-```
+---
 
-Cuando el programa recorre la lista de productos, cada objeto muestra información diferente según su tipo.
+# Principios SOLID aplicados
+
+## SRP (Single Responsibility Principle)
+
+Cada clase tiene una única responsabilidad:
+
+* Producto representa productos.
+* Bebida representa bebidas.
+* Cliente representa clientes.
+* Restaurante administra el sistema.
+* main.py controla la interacción con el usuario.
+
+## OCP (Open/Closed Principle)
+
+La clase Bebida amplía el comportamiento de Producto mediante herencia sin modificar la lógica del sistema.
+
+## LSP (Liskov Substitution Principle)
+
+Los objetos de la clase Bebida pueden utilizarse como objetos de la clase Producto sin afectar el funcionamiento del programa.
 
 ---
 
 # Funcionalidades
 
-- Registrar platillos.
-- Registrar bebidas.
-- Mostrar todos los productos.
-- Modificar el precio de un producto.
-- Validar que el precio sea mayor que cero.
-- Aplicar herencia.
-- Aplicar encapsulación.
-- Aplicar polimorfismo.
+* Registrar productos.
+* Registrar bebidas.
+* Registrar clientes.
+* Listar productos.
+* Listar clientes.
+* Validar códigos de productos duplicados.
+* Validar identificaciones de clientes duplicadas.
+* Aplicar herencia y polimorfismo.
 
 ---
 
@@ -114,10 +122,10 @@ python3 main.py
 
 # Reflexión
 
-La Programación Orientada a Objetos facilita la organización del código, permite reutilizar clases mediante la herencia, protege la información con encapsulación y hace posible que diferentes objetos respondan de manera distinta utilizando el mismo método gracias al polimorfismo. Estos principios contribuyen al desarrollo de aplicaciones más ordenadas, reutilizables y fáciles de mantener.
+Este proyecto permitió comprender la importancia de organizar el código mediante clases con responsabilidades específicas. La aplicación de los principios SOLID mejora la estructura del programa, facilita su mantenimiento y permite ampliar sus funcionalidades sin modificar el código existente. Además, el uso de herencia y polimorfismo demuestra cómo reutilizar código de manera eficiente.
 
 ---
 
 # Autor
 
-**Ricardo Cando**
+**Ricardo Rubén Cando Arguello**

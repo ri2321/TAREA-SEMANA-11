@@ -1,9 +1,8 @@
-from dataclasses import dataclass
-
-
-@dataclass
 class Cliente:
+    def __init__(self, identificacion: str, nombre: str, correo: str):
+        self.identificacion = identificacion
+        self.nombre = nombre
+        self.correo = correo
 
-    id_cliente: int
-    nombre: str
-    correo: str
+    def mostrar_informacion(self) -> str:
+        return f"{self.identificacion} - {self.nombre} - {self.correo}"
