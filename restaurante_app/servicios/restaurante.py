@@ -1,39 +1,88 @@
 from modelos.producto import Producto
-from modelos.cliente import Cliente
+from modelos.usuario import Usuario
+
 
 class Restaurante:
+
     def __init__(self):
-        self.productos = []
-        self.clientes = []
+        # LISTAS
+        self.productos: list[Producto] = []
+        self.usuarios: list[Usuario] = []
 
-    def registrar_producto(self, producto: Producto):
-        for p in self.productos:
-            if p.codigo == producto.codigo:
-                print("Ese código ya existe.")
-                return
+    # =========================
+    # PRODUCTOS
+    # =========================
+
+    def registrar_producto(self, producto: Producto) -> bool:
+        if self.buscar_producto(producto.codigo) is not None:
+            return False
+
         self.productos.append(producto)
-        print("Producto registrado correctamente.")
+        return True
 
-    def registrar_cliente(self, cliente: Cliente):
-        for c in self.clientes:
-            if c.identificacion == cliente.identificacion:
-                print("Ese cliente ya existe.")
-                return
-        self.clientes.append(cliente)
-        print("Cliente registrado correctamente.")
+    def buscar_producto(self, codigo: str) -> Producto | None:
+        for producto in self.productos:
+            if producto.codigo == codigo:
+                return producto
 
-    def listar_productos(self):
-        if len(self.productos) == 0:
-            print("No hay productos registrados.")
-            return
+        return None
+
+    def actualizar_producto(
+        self,
+        codigo: str,
+        nombre: str,
+        categoria: str,
+        precio: float
+    ) -> bool:
+
+        producto = self.buscar_producto(codigo)
+
+        if producto is None:
+            return False
+
+        producto.nombre = nombre
+        producto.categoria = categoria
+        producto.precio = precio
+
+        return True
+
+    def eliminar_producto(self, codigo: str) -> bool:
+        producto = self.buscar_producto(codigo)
+
+        if producto is None:
+            return False
+
+        self.productos.remove(producto)
+        return True
+
+    def listar_productos(self) -> list[Producto]:
+        return self.productos.copy()
+
+    # =========================
+    # USUARIOS
+    # =========================
+
+    def registrar_usuario(self, usuario: Usuario) -> bool:
+
+        for usuario_registrado in self.usuarios:
+            if usuario_registrado.identificacion == usuario.identificacion:
+                return False
+
+        self.usuarios.append(usuario)
+        return True
+
+    def listar_usuarios(self) -> list[Usuario]:
+        return self.usuarios.copy()
+
+    # =========================
+    # CONJUNTO
+    # =========================
+
+    def obtener_categorias(self) -> set[str]:
+
+        categorias = set()
 
         for producto in self.productos:
-            print(producto.mostrar_informacion())
+            categorias.add(producto.categoria)
 
-    def listar_clientes(self):
-        if len(self.clientes) == 0:
-            print("No hay clientes registrados.")
-            return
-
-        for cliente in self.clientes:
-            print(cliente.mostrar_informacion())
+        return categorias
