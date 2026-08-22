@@ -1,165 +1,167 @@
-restaurante_app – Semana 9
-Datos del estudiante
+# Restaurante App - Semana 10
 
-Nombre: Ricardo Rubén Cando Argüello
-Asignatura: Programación Orientada a Objetos
-Semana: 9
+## Nombre del estudiante
 
-Descripción
+Ricardo Rubén Cando Arguello
 
-El proyecto restaurante_app corresponde a la continuación del sistema desarrollado durante las semanas anteriores. En esta Semana 9 se mejora el sistema mediante la administración de productos y usuarios utilizando estructuras de datos de Python.
+## Descripción del proyecto
 
-El sistema funciona mediante un menú interactivo en consola y permite registrar, buscar, actualizar, eliminar y listar productos. También permite registrar y listar usuarios.
+El proyecto Restaurante App corresponde a una aplicación desarrollada en Python utilizando Programación Orientada a Objetos. El sistema permite administrar productos de un restaurante mediante un menú interactivo en consola.
 
-El objetivo principal es utilizar de manera funcional las estructuras de datos list, tuple, dict y set, manteniendo una correcta separación entre modelos, servicios y main.py. La actividad establece que cada estructura debe tener una función concreta dentro del sistema.
+En esta Semana 10 se realizó una mejora al proyecto desarrollado anteriormente mediante la incorporación de persistencia de datos utilizando archivos JSON. De esta manera, los productos registrados pueden conservarse aunque la aplicación sea cerrada y posteriormente ejecutada nuevamente.
 
-Estructura del proyecto
+## Objetivo
+
+Implementar la persistencia de los productos mediante un archivo JSON, manteniendo la arquitectura modular del proyecto y aplicando manejo de excepciones para controlar posibles errores durante la lectura y escritura de los datos.
+
+## Estructura del proyecto
+
+```text
 restaurante_app/
+├── datos/
+│   └── productos.json
 ├── modelos/
 │   ├── __init__.py
 │   ├── producto.py
 │   └── usuario.py
 ├── servicios/
 │   ├── __init__.py
+│   ├── archivo_servicio.py
 │   └── restaurante.py
 ├── main.py
 └── README.md
-Componentes del sistema
-Producto
+```
 
-La clase Producto representa los productos del restaurante y contiene:
+## Componentes principales
 
-Código
-Nombre
-Categoría
-Precio
-Usuario
+### Producto
 
-La clase Usuario representa a las personas registradas en el sistema y contiene:
+La clase `Producto` representa los productos registrados en el restaurante. Contiene atributos como identificador, nombre, precio y categoría.
 
-Identificación
-Nombre
-Correo
-Restaurante
+También dispone de métodos para convertir un producto en un diccionario y para reconstruir un objeto `Producto` a partir de los datos recuperados desde JSON.
 
-La clase Restaurante es el servicio encargado de administrar las colecciones de productos y usuarios. También realiza las operaciones de registro, búsqueda, actualización, eliminación y listado.
+### Usuario
 
-main.py
+La clase `Usuario` representa la información básica de los usuarios del sistema. En esta semana sus datos permanecen únicamente en memoria y no forman parte de la persistencia solicitada.
 
-El archivo main.py es el punto de inicio del programa. Se encarga de mostrar el menú, solicitar información mediante input() y utilizar los métodos de la clase Restaurante.
+### Restaurante
 
-Esta organización permite mantener separadas las responsabilidades de cada componente.
+La clase `Restaurante` administra la colección de productos y contiene las operaciones para registrar, buscar, listar, actualizar y eliminar productos.
 
-Estructuras de datos utilizadas
-Lista — list
+### ArchivoServicio
 
-Las listas se utilizan para almacenar los productos y usuarios registrados.
+`ArchivoServicio` es responsable de la persistencia de los productos. Se encarga de leer y escribir el archivo `datos/productos.json` utilizando el módulo `json`.
 
-self.productos = []
-self.usuarios = []
+Se utiliza `json.dump()` para guardar la información y `json.load()` para recuperarla.
 
-Estas listas permiten administrar colecciones dinámicas de objetos.
+### main.py
 
-Tupla — tuple
+El archivo `main.py` es el punto de entrada de la aplicación. Coordina el menú, recibe los datos mediante `input()`, carga los productos al iniciar y solicita el guardado después de las operaciones que modifican la colección.
 
-La tupla se utiliza para almacenar las opciones disponibles del menú.
+## Persistencia mediante JSON
 
-OPCIONES_MENU = (
-    "1", "2", "3", "4", "5",
-    "6", "7", "8", "9"
-)
+La persistencia permite conservar los productos después de cerrar el programa.
 
-Se utiliza una tupla porque las opciones del menú permanecen estables durante la ejecución del programa.
+Los objetos `Producto` se convierten en diccionarios antes de ser almacenados en `productos.json`. Cuando la aplicación vuelve a ejecutarse, los datos son recuperados y cada registro válido se convierte nuevamente en un objeto `Producto`.
 
-Diccionario — dict
+El archivo utilizado es:
 
-El diccionario relaciona cada opción del menú con la función que debe ejecutarse.
+```text
+datos/productos.json
+```
 
-ACCIONES = {
-    "1": registrar_producto,
-    "2": buscar_producto,
-    "3": actualizar_producto,
-    "4": eliminar_producto,
-    "5": listar_productos,
-    "6": registrar_usuario,
-    "7": listar_usuarios,
-    "8": mostrar_categorias
-}
+## Flujo de carga
 
-De esta manera se establece una relación clara de clave → valor.
+Al iniciar el programa se crea el servicio de archivos y se intenta leer `productos.json`.
 
-Conjunto — set
+El proceso es:
 
-El conjunto se utiliza para obtener las categorías de los productos sin repetir valores.
+```text
+Inicio
+  ↓
+main.py crea ArchivoServicio
+  ↓
+Se lee productos.json
+  ↓
+json.load()
+  ↓
+Se validan los registros
+  ↓
+Se crean objetos Producto
+  ↓
+Los productos se cargan en Restaurante
+  ↓
+El menú queda disponible
+```
 
-def obtener_categorias(self):
-    return {producto.categoria for producto in self.productos}
+## Flujo de guardado
 
-Por ejemplo, si existen varios productos de la categoría Bebidas, esta categoría solamente se mostrará una vez.
+Cuando se registra, actualiza o elimina un producto, la colección administrada por `Restaurante` se convierte a una estructura compatible con JSON y se guarda nuevamente en el archivo.
 
-Funcionalidades
+```text
+Operación sobre producto
+  ↓
+Restaurante modifica la colección
+  ↓
+Producto se convierte a diccionario
+  ↓
+ArchivoServicio utiliza json.dump()
+  ↓
+Se actualiza productos.json
+```
 
-El sistema cuenta con las siguientes opciones:
+## Manejo de excepciones
 
-Registrar producto.
-Buscar producto.
-Actualizar producto.
-Eliminar producto.
-Listar productos.
-Registrar usuario.
-Listar usuarios.
-Mostrar categorías.
-Salir.
+El sistema controla diferentes situaciones que pueden producirse durante el funcionamiento:
 
-Estas funcionalidades corresponden al menú interactivo establecido como referencia en la actividad.
+* `FileNotFoundError`: permite iniciar el programa aunque todavía no exista el archivo JSON.
+* `json.JSONDecodeError`: controla archivos que contienen información que no tiene un formato JSON válido.
+* `PermissionError`: controla problemas relacionados con permisos de lectura o escritura.
+* `KeyError`: permite detectar registros almacenados que no contienen alguna clave necesaria.
+* `ValueError`: controla datos inválidos introducidos por el usuario y validaciones de la clase `Producto`.
 
-Validaciones
+Las excepciones se manejan de forma específica para evitar que errores previsibles provoquen el cierre inesperado de la aplicación.
 
-El sistema incorpora validaciones para evitar:
+## Funcionalidades
 
-Códigos de productos duplicados.
-Identificaciones de usuarios duplicadas.
-Ingreso de precios que no sean valores numéricos.
+El programa permite:
 
-También se utiliza manejo de excepciones para evitar que una entrada incorrecta detenga inesperadamente el programa.
+1. Registrar productos.
+2. Listar productos.
+3. Buscar productos mediante su ID.
+4. Actualizar productos.
+5. Eliminar productos.
+6. Guardar los cambios en formato JSON.
+7. Cargar automáticamente los productos almacenados al iniciar.
 
-Ejecución
+## Ejecución del programa
 
-Para ejecutar el programa, se debe abrir una terminal dentro de la carpeta restaurante_app y ejecutar:
+Para ejecutar el proyecto se debe abrir una terminal dentro de la carpeta `restaurante_app` y utilizar:
 
+```bash
 python main.py
+```
 
-También se puede utilizar:
+También puede ejecutarse utilizando la versión de Python instalada en el equipo.
 
-python3 main.py
+## Comprobación de persistencia
 
-Al iniciar el programa aparecerá el menú principal del sistema de restaurante.
+Para comprobar el funcionamiento de la persistencia se realizó el siguiente procedimiento:
 
-Ejemplo del menú
-========================================
-        SISTEMA DE RESTAURANTE
-========================================
-1. Registrar producto
-2. Buscar producto
-3. Actualizar producto
-4. Eliminar producto
-5. Listar productos
-----------------------------------------
-6. Registrar usuario
-7. Listar usuarios
-----------------------------------------
-8. Mostrar categorías
-9. Salir
-Reflexión
+1. Se ejecutó `main.py`.
+2. Se registró uno o más productos utilizando el menú.
+3. Se verificó que la información apareciera en `datos/productos.json`.
+4. Se cerró completamente la aplicación.
+5. Se ejecutó nuevamente `main.py`.
+6. Se seleccionó la opción para listar los productos.
+7. Se comprobó que los productos registrados anteriormente continuaran disponibles.
+8. Se realizó una actualización o eliminación.
+9. Se reinició nuevamente el programa para comprobar que el cambio permaneciera guardado.
 
-Durante la Semana 9 se aplicaron diferentes estructuras de datos de Python para mejorar la administración de la información del sistema. Las listas permiten almacenar colecciones dinámicas de productos y usuarios, mientras que las tuplas permiten mantener información estable como las opciones del menú.
+## Conclusión
 
-Los diccionarios permiten relacionar cada opción con la función correspondiente y los conjuntos permiten obtener información única, como las categorías de los productos, evitando valores repetidos.
+La mejora implementada en la Semana 10 permitió incorporar persistencia de datos al proyecto Restaurante App mediante archivos JSON. Los productos ya no dependen únicamente de la memoria temporal del programa, sino que pueden conservarse y recuperarse en nuevas ejecuciones.
 
-La utilización de cada estructura según la necesidad del problema permite desarrollar un programa más organizado, comprensible y fácil de mantener.
+Además, se mantuvo la separación de responsabilidades entre las clases y servicios. `Restaurante` administra los productos, `ArchivoServicio` se encarga de la lectura y escritura del archivo JSON y `main.py` coordina la interacción con el usuario.
 
-Conclusión
-
-La implementación de la Semana 9 permitió continuar mejorando el proyecto restaurante_app mediante la administración organizada de productos y usuarios. Se incorporaron las estructuras list, tuple, dict y set de manera funcional dentro del sistema.
-
-Además, se mantuvo la separación de responsabilidades entre los modelos, el servicio Restaurante y el archivo main.py. Con esto se obtiene un sistema modular que permite realizar las operaciones principales mediante un menú interactivo y que puede continuar evolucionando en las siguientes semanas.
+El manejo de excepciones permite controlar situaciones como la ausencia del archivo, errores en el formato JSON, problemas de permisos y datos inválidos. De esta manera, el sistema mantiene un funcionamiento más seguro y organizado.

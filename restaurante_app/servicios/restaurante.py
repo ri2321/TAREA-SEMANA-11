@@ -1,88 +1,62 @@
 from modelos.producto import Producto
-from modelos.usuario import Usuario
 
 
 class Restaurante:
-
-    def __init__(self):
-        # LISTAS
+    def __init__(self) -> None:
         self.productos: list[Producto] = []
-        self.usuarios: list[Usuario] = []
 
-    # =========================
-    # PRODUCTOS
-    # =========================
+    def cargar_productos(self, productos: list[Producto]) -> None:
+        self.productos = productos
 
-    def registrar_producto(self, producto: Producto) -> bool:
-        if self.buscar_producto(producto.codigo) is not None:
-            return False
+    def registrar_producto(self, producto: Producto) -> None:
+        if self.buscar_producto(producto.id_producto) is not None:
+            raise ValueError("Ya existe un producto con ese ID.")
 
         self.productos.append(producto)
-        return True
 
-    def buscar_producto(self, codigo: str) -> Producto | None:
+    def listar_productos(self) -> list[Producto]:
+        return self.productos
+
+    def buscar_producto(self, id_producto: int) -> Producto | None:
         for producto in self.productos:
-            if producto.codigo == codigo:
+            if producto.id_producto == id_producto:
                 return producto
 
         return None
 
     def actualizar_producto(
         self,
-        codigo: str,
+        id_producto: int,
         nombre: str,
-        categoria: str,
-        precio: float
+        precio: float,
+        categoria: str
     ) -> bool:
 
-        producto = self.buscar_producto(codigo)
+        producto = self.buscar_producto(id_producto)
 
         if producto is None:
             return False
 
+        if not nombre.strip():
+            raise ValueError("El nombre no puede estar vacío.")
+
+        if precio <= 0:
+            raise ValueError("El precio debe ser mayor que cero.")
+
+        if not categoria.strip():
+            raise ValueError("La categoría no puede estar vacía.")
+
         producto.nombre = nombre
-        producto.categoria = categoria
         producto.precio = precio
+        producto.categoria = categoria
 
         return True
 
-    def eliminar_producto(self, codigo: str) -> bool:
-        producto = self.buscar_producto(codigo)
+    def eliminar_producto(self, id_producto: int) -> bool:
+        producto = self.buscar_producto(id_producto)
 
         if producto is None:
             return False
 
         self.productos.remove(producto)
         return True
-
-    def listar_productos(self) -> list[Producto]:
-        return self.productos.copy()
-
-    # =========================
-    # USUARIOS
-    # =========================
-
-    def registrar_usuario(self, usuario: Usuario) -> bool:
-
-        for usuario_registrado in self.usuarios:
-            if usuario_registrado.identificacion == usuario.identificacion:
-                return False
-
-        self.usuarios.append(usuario)
-        return True
-
-    def listar_usuarios(self) -> list[Usuario]:
-        return self.usuarios.copy()
-
-    # =========================
-    # CONJUNTO
-    # =========================
-
-    def obtener_categorias(self) -> set[str]:
-
-        categorias = set()
-
-        for producto in self.productos:
-            categorias.add(producto.categoria)
-
-        return categorias

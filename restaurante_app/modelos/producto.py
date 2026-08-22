@@ -1,20 +1,20 @@
 class Producto:
-    def __init__(
-        self,
-        codigo: str,
-        nombre: str,
-        categoria: str,
-        precio: float
-    ):
-        self.codigo = codigo
+    def __init__(self, nombre, precio):
         self.nombre = nombre
-        self.categoria = categoria
         self.precio = precio
 
-    def __str__(self) -> str:
-        return (
-            f"Codigo: {self.codigo} | "
-            f"Nombre: {self.nombre} | "
-            f"Categoria: {self.categoria} | "
-            f"Precio: ${self.precio:.2f}"
+    def mostrar_info(self):
+        return f"Producto: {self.nombre} - Precio: ${self.precio:.2f}"
+
+    def to_dict(self):
+        return {
+            "nombre": self.nombre,
+            "precio": self.precio
+        }
+
+    @classmethod
+    def from_dict(cls, datos):
+        return cls(
+            datos["nombre"],
+            datos["precio"]
         )
