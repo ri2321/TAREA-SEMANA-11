@@ -1,14 +1,8 @@
 [
     {
-        "id_producto": 1,
+        "codigo": "P001",
         "nombre": "Hamburguesa",
-        "precio": 4.5,
-        "categoria": "Comida"
-    },
-    {
-        "id_producto": 2,
-        "nombre": "Coca Cola",
-        "precio": 1.5,
-        "categoria": "Bebida"
+        "precio": 5.5,
+        "stock": 10
     }
 ]
