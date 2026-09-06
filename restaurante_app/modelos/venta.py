@@ -1,22 +1,16 @@
 class Venta:
-    def __init__(
-        self,
-        usuario_id: str,
-        producto_codigo: str,
-        cantidad: int
-    ):
-        if not usuario_id:
-            raise ValueError("La identificación del usuario es obligatoria.")
 
-        if not producto_codigo:
-            raise ValueError("El código del producto es obligatorio.")
-
-        if cantidad <= 0:
-            raise ValueError("La cantidad debe ser mayor que cero.")
-
+    def __init__(self, usuario_id, producto_codigo, cantidad):
         self.usuario_id = usuario_id
         self.producto_codigo = producto_codigo
-        self.cantidad = cantidad
+        self.cantidad = int(cantidad)
+
+    def mostrar_info(self):
+        return (
+            f"Usuario: {self.usuario_id} | "
+            f"Producto: {self.producto_codigo} | "
+            f"Cantidad: {self.cantidad}"
+        )
 
     def to_dict(self):
         return {

@@ -1,28 +1,19 @@
 class Producto:
-    def __init__(self, codigo: str, nombre: str, precio: float, stock: int):
-        if not codigo:
-            raise ValueError("El código es obligatorio.")
 
-        if not nombre:
-            raise ValueError("El nombre es obligatorio.")
-
-        if precio < 0:
-            raise ValueError("El precio no puede ser negativo.")
-
-        if stock < 0:
-            raise ValueError("El stock no puede ser negativo.")
-
+    def __init__(self, codigo, nombre, precio, stock):
         self.codigo = codigo
         self.nombre = nombre
-        self.precio = precio
-        self.stock = stock
+        self.precio = float(precio)
+        self.stock = int(stock)
 
-    def vender(self, cantidad: int):
+    def vender(self, cantidad):
+        cantidad = int(cantidad)
+
         if cantidad <= 0:
             raise ValueError("La cantidad debe ser mayor que cero.")
 
         if cantidad > self.stock:
-            raise ValueError("Stock insuficiente.")
+            raise ValueError("No hay suficiente stock disponible.")
 
         self.stock -= cantidad
 

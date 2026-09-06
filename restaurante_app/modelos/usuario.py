@@ -1,15 +1,14 @@
 class Usuario:
 
-    def __init__(self, identificacion: str, nombre: str):
-
-        if not identificacion:
-            raise ValueError("La identificación es obligatoria.")
-
-        if not nombre:
-            raise ValueError("El nombre es obligatorio.")
-
+    def __init__(self, identificacion, nombre):
         self.identificacion = identificacion
         self.nombre = nombre
+
+    def mostrar_info(self):
+        return (
+            f"Identificación: {self.identificacion} | "
+            f"Nombre: {self.nombre}"
+        )
 
     def to_dict(self):
         return {
@@ -22,10 +21,4 @@ class Usuario:
         return cls(
             datos["identificacion"],
             datos["nombre"]
-        )
-
-    def mostrar_info(self):
-        return (
-            f"ID: {self.identificacion} | "
-            f"Nombre: {self.nombre}"
         )
